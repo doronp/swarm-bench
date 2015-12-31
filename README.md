@@ -46,3 +46,8 @@ Time taken for tests: 2.772266804s
 Time per container: 228ms [50th] | 596ms [90th] | 675ms [99th]
 ```
 
+## Example For running long test
+while true
+do
+  swarm-bench -c 10 -n 1000 -i nginx redis busybox
+done
