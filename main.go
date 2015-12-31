@@ -16,7 +16,7 @@ import (
 const MILLIS_IN_SECOND = 1000
 
 func worker(requests int, image string, args []string, completeCh chan time.Duration) {
-	client, err := docker.NewClient("http://localhost:4275")
+	client, err := docker.NewClient("http://localhost:4375")
 	if err != nil {
 		panic(err)
 	}
