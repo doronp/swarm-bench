@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
-	"math/rand"
 	"os"
 	"sync"
 	"time"
@@ -40,25 +38,25 @@ func worker(requests int, image string, args []string, completeCh chan time.Dura
 		}
 
 		completeCh <- time.Since(start)
+		/*
+			s1 := rand.NewSource(time.Now().UnixNano())
+			r1 := rand.New(s1)
 
-		s1 := rand.NewSource(time.Now().UnixNano())
-		r1 := rand.New(s1)
+			randy := r1.Intn(100)
 
-		randy := r1.Intn(100)
+			if randy > 50 {
+				_, err := client.InspectContainer(container.ID)
+				log.Println(err)
+			}
 
-		if randy > 50 {
-			_, err := client.InspectContainer(container.ID)
-			log.Println(err)
-		}
-
-		if randy > 10 {
-			err := client.StopContainer(container.ID, 3)
-			log.Println(err)
-			time.Sleep(time.Duration(randy*10) * time.Millisecond)
-			opts := docker.RemoveContainerOptions{ID: container.ID}
-			client.RemoveContainer(opts)
-		}
-
+			if randy > 10 {
+				err := client.StopContainer(container.ID, 3)
+				log.Println(err)
+				time.Sleep(time.Duration(randy*10) * time.Millisecond)
+				opts := docker.RemoveContainerOptions{ID: container.ID}
+				client.RemoveContainer(opts)
+			}
+		*/
 	}
 }
 
