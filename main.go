@@ -16,20 +16,18 @@ import (
 const MILLIS_IN_SECOND = 1000
 
 func worker(requests int, image string, args []string, completeCh chan time.Duration) {
-	client, err := docker.NewClientFromEnv()
+	client, err := docker.NewClient("htp://0.0.0.0:4275")
 	if err != nil {
 		panic(err)
 	}
 
 	for i := 0; i < requests; i++ {
 		start := time.Now()
-		
-		
-		
+
 		container, err := client.CreateContainer(docker.CreateContainerOptions{
 			Config: &docker.Config{
-				Image: image,
-				Cmd:   args,
+				Image:     image,
+				Cmd:       args,
 				CPUShares: 1,
 			}})
 		if err != nil {
