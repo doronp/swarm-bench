@@ -6,6 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"math/rand"
+
 	"github.com/codegangsta/cli"
 	docker "github.com/fsouza/go-dockerclient"
 	"github.com/montanaflynn/stats"
@@ -37,6 +39,24 @@ func worker(requests int, image string, args []string, completeCh chan time.Dura
 		}
 
 		completeCh <- time.Since(start)
+
+		s1 := rand.NewSource(time.Now().UnixNano())
+		r1 := rand.New(s1)
+
+		randy := r1.Intn(100)
+
+		if randy > 50 {
+			client.InspectContainer(container.ID)
+		}
+
+		if randy > 10 {
+			client.StopContainer(container.ID, 3)
+
+			time.Sleep(time.Duration(randy*10) * time.Millisecond)
+			opts := docker.RemoveContainerOptions{ID: container.ID}
+			client.RemoveContainer(opts)
+		}
+
 	}
 }
 
