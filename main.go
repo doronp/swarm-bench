@@ -2,11 +2,11 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"math/rand"
 	"os"
 	"sync"
 	"time"
-
-	"math/rand"
 
 	"github.com/codegangsta/cli"
 	docker "github.com/fsouza/go-dockerclient"
@@ -23,11 +23,14 @@ func worker(requests int, image string, args []string, completeCh chan time.Dura
 
 	for i := 0; i < requests; i++ {
 		start := time.Now()
-
+		
+		
+		
 		container, err := client.CreateContainer(docker.CreateContainerOptions{
 			Config: &docker.Config{
 				Image: image,
 				Cmd:   args,
+				CPUShares: 1,
 			}})
 		if err != nil {
 			panic(err)
@@ -46,12 +49,13 @@ func worker(requests int, image string, args []string, completeCh chan time.Dura
 		randy := r1.Intn(100)
 
 		if randy > 50 {
-			client.InspectContainer(container.ID)
+			_, err := client.InspectContainer(container.ID)
+			log.Println(err)
 		}
 
 		if randy > 10 {
-			client.StopContainer(container.ID, 3)
-
+			err := client.StopContainer(container.ID, 3)
+			log.Println(err)
 			time.Sleep(time.Duration(randy*10) * time.Millisecond)
 			opts := docker.RemoveContainerOptions{ID: container.ID}
 			client.RemoveContainer(opts)
