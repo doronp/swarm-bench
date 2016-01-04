@@ -22,7 +22,7 @@ func worker(requests int, image string, args []string, completeCh chan time.Dura
 	for i := 0; i < requests; i++ {
 		start := time.Now()
 
-		container, err := client.CreateContainer(docker.CreateContainerOptions{
+		_, err := client.CreateContainer(docker.CreateContainerOptions{
 			Config: &docker.Config{
 				Image:     image,
 				Cmd:       args,
@@ -32,10 +32,10 @@ func worker(requests int, image string, args []string, completeCh chan time.Dura
 			panic(err)
 		}
 
-//		err = client.StartContainer(container.ID, nil)
-//		if err != nil {
-//			panic(err)
-//		}
+		//		err = client.StartContainer(container.ID, nil)
+		//		if err != nil {
+		//			panic(err)
+		//		}
 
 		completeCh <- time.Since(start)
 		/*
