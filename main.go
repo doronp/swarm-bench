@@ -32,10 +32,10 @@ func worker(requests int, image string, args []string, completeCh chan time.Dura
 			panic(err)
 		}
 
-		err = client.StartContainer(container.ID, nil)
-		if err != nil {
-			panic(err)
-		}
+//		err = client.StartContainer(container.ID, nil)
+//		if err != nil {
+//			panic(err)
+//		}
 
 		completeCh <- time.Since(start)
 		/*
